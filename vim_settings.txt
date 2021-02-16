@@ -51,7 +51,7 @@ colorscheme molokai
 Plugin 'mattn/emmet-vim'
 "Emmet ctrl+z+,
 let g:user_emmet_leader_key=','
-
+         
 "WindowSwap
 Plugin 'wesQ3/vim-windowswap'
 let  g: windowswap_map_keys  =  0 " предотвращает привязки по умолчанию nnoremap <silent> <leader> yw: call WindowSwap # MarkWindowSwap () <CR> nnoremap <silent> <leader> pw : call WindowSwap # DoWindowSwap () <CR> nnoremap <silent> <leader> ww : вызвать WindowSwap # EasyWindowSwap () <CR> 
@@ -70,11 +70,19 @@ autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,sass setlocal ex
 "CSS
 autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
+"show spaces
+Plugin 'Yggdroot/indentLine'
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_defaultGroup = 'SpecialKey'
 
 
 " highlighting words when misspelled
 autocmd  FileType SCSS набор  iskeyword + = -
 
+
+"Python save and startl
+autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 
 syntax on
 
