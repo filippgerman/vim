@@ -36,8 +36,8 @@ autocmd  VimEnter  * NERDTree | if  argc () > 0  ||  exists ( " s: std_in " ) | 
 nnoremap <C-n> :NERDTree<CR>
 
 "js and React
-Plug 'yuezk/vim-js'
-Plug 'maxmellon/vim-jsx-pretty'
+Plugin 'yuezk/vim-js'
+Plugin 'maxmellon/vim-jsx-pretty'
 
 "spacetab
 set tabstop=4
@@ -49,11 +49,12 @@ set smartindent
 "HTML
 autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,sass,js setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
-"CSS autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4 
+"CSS 
+autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4 
+
 "show spaces
 Plugin 'Yggdroot/indentLine'
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-let g:indentLine_defaultGroup = 'SpecialKey'
 
 "Python save and startl
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
