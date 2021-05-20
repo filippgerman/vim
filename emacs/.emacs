@@ -13,7 +13,7 @@
 ;; загрузки
 (el-get-bundle emacs-neotree)
 (el-get-bundle indent-guide)
-(el-get-bundle company-mode)
+;;(el-get-bundle company-mode)
 (el-get-bundle flycheck)
 (el-get-bundle ergoemacs-mode)
 
@@ -27,6 +27,23 @@
 (el-get-bundle jedi)
 (el-get-bundle auto-complete)
 
+
+;;js
+(el-get-bundle vue-mode)
+
+(el-get-bundle json-mode)
+(el-get-bundle js2-mode)
+(el-get-bundle ac-js2)
+(el-get-bundle coffee-mode)
+
+(el-get-bundle tern)
+(el-get-bundle tern-auto-complete)
+
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(eval-after-load 'tern
+   '(progn
+      (require 'tern-auto-complete)
+      (tern-ac-setup)))
 
 ;; Указать в какой системе  работаем
 (defun system-is-linux()
@@ -171,7 +188,7 @@
 (indent-guide-global-mode)
 
 ;; company-mode
-(add-hook 'after-init-hook 'global-company-mode)
+;;(add-hook 'after-init-hook 'global-company-mode)
 
 ;; yasnippet
 (require 'yasnippet)
@@ -230,3 +247,7 @@
                :config
                ;; 0, 1, or 2, representing (respectively) none, low, and high coloring
                (setq mmm-submode-decoration-level 0)))
+
+(add-hook 'mmm-mode-hook
+          (lambda ()
+            (set-face-background 'mmm-default-submode-face nil)))
