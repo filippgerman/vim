@@ -11,10 +11,10 @@
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
 ;; загрузки
-(el-get-bundle emacs-neotree)
-(el-get-bundle indent-guide)
+(el-get-bundle emacs-neotree) ;; файлы
+(el-get-bundle indent-guide) ;; авто выравн. 
 ;;(el-get-bundle company-mode)
-(el-get-bundle flycheck)
+(el-get-bundle flycheck) 
 (el-get-bundle ergoemacs-mode)
 
 ;; web 
@@ -52,14 +52,23 @@
 ; Включить эргоемак	  
 (package-initialize)
 (require 'ergoemacs-mode)
-(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+(setq ergoemacs-theme "lvl2") ;; Uses Standard Ergoemacs keyboard theme
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 (ergoemacs-mode 1)
+
+  (cua-mode t)
+    (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
+    (transient-mark-mode 1) ;; No region when it is not highlighted
+    (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 
 ;;(setq ergoemacs-theme "lvl2")
 ;;(setq ergoemacs-keyboard-layout "us")
 ;;(require 'ergoemacs-mode)			  
 ;;(ergoemacs-mode 1)
+
+
+;; Short messages
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Отключить бар меню
 (menu-bar-mode -1)
@@ -110,13 +119,13 @@
     (set-frame-size (selected-frame) 100 50))
 
 ;; IDO plugin
-(require 'ido)
-(ido-mode                      t)
-(icomplete-mode                t)
-(ido-everywhere                t)
-(setq ido-vitrual-buffers      t)
-(setq ido-enable-flex-matching t)
-(ido-mode 1)
+;;(require 'ido)
+;;(ido-mode
+;;(icomplete-mode                t)
+;;(ido-everywhere                t)
+;;(setq ido-vitrual-buffers      t)
+;;(setq ido-enable-flex-matching t)
+;;(ido-mode 1)
 
 
 ;; Buffer Selection and ibuffer settings
@@ -232,22 +241,26 @@
 (smex-initialize)
 
 
-;; vue
-(setq vue-mode-packages
-  '(vue-mode))
-
-(setq vue-mode-excluded-packages '())
-
-(defun vue-mode/init-vue-mode ()
-  "Initialize my package"
-  (use-package vue-mode))
-
-(defun vue-mode/init-vue-mode ()
-  (use-package vue-mode
-               :config
-               ;; 0, 1, or 2, representing (respectively) none, low, and high coloring
-               (setq mmm-submode-decoration-level 0)))
-
-(add-hook 'mmm-mode-hook
-          (lambda ()
-            (set-face-background 'mmm-default-submode-face nil)))
+;; react
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode zenburn-theme json-mode))
+(when (cl-find-if-not #'package-installed-p package-selected-packages)
+  (package-refresh-contents)
+  (mapc #'package-install package-selected-packages))
+(helm-mode)
+(require 'helm-xref)
+(define-key global-map [remap find-file] #'helm-find-files)
+(define-key global-map [remap execute-extended-command] #'helm-M-x)
+(define-key global-map [remap switch-to-buffer] #'helm-mini)
+(which-key-mode)
+(add-hook 'prog-mode-hook #'lsp)
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1
+      create-lockfiles nil) ;; lock files will kill `npm start'
+(with-eval-after-load 'lsp-mode
+  (require 'dap-chrome)
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (yas-global-mode))
